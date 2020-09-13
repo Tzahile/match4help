@@ -3,6 +3,7 @@ import "firebase/performance";
 import "firebase/analytics";
 import "firebase/firestore";
 import "firebase/auth";
+import "firebase/database";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCvLQTBabEnk5Pvss30DhXw7HqgF8AWnHU",
@@ -18,11 +19,17 @@ firebase.initializeApp(firebaseConfig);
 firebase.analytics();
 firebase.performance();
 
-const db = firebase.firestore();
+const db = firebase.database();
 const auth = firebase.auth();
-const usersCollection = db.collection("users");
+const store = firebase.firestore();
+
+const usersCollection = store.collection("users");
+export const spreadSheet = "16Y2EyQrN4dnG5quEvYty4IGR3kLuKHItDf4r557PptI";
+const sheetsCollection = db.ref(`${spreadSheet}/`);
+
 export default {
-  db,
+  store,
   auth,
   usersCollection,
+  sheetsCollection,
 };
