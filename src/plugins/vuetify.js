@@ -5,12 +5,13 @@ import { colors } from "vuetify/lib";
 Vue.use(Vuetify);
 
 export default new Vuetify({
+  rtl: true,
   theme: {
     themes: {
       light: {
-        primary: colors.blueGrey,
+        primary: colors.blue.base,
         secondary: colors.grey.darken1,
-        accent: "#82B1FF",
+        accent: colors.lightBlue.accent2,
         error: colors.red.darken1,
         info: colors.lightBlue.lighten2,
         success: colors.green,

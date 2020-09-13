@@ -38,23 +38,11 @@ const flatten = (data) => {
   recurse(data, "");
   return result;
 };
-// console.log(functions.region("europe-west3").database);
-// exports.SyncToSheets1 = functions
-//   .region("europe-west3")
-//   .database.refFromURL(
-//     "https://match-4-help.firebaseio.com/" + spreadsheetId + "/"
-//   )
-//   .onUpdate((change, context) => {
-//     console.log("function 1");
-//     console.log(change);
-//     console.log(context);
-//   });
 
 exports.SyncToSheets4 = functions
   .region("europe-west3")
   .database.ref(spreadsheetId + "/Match4Help")
   .onUpdate(async (change, context) => {
-    console.log("function 4");
     functions.logger.debug("Entered!");
     functions.logger.log("Entered!");
     functions.logger.info("Entered!");

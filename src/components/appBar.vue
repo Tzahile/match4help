@@ -1,8 +1,6 @@
 <template>
   <v-app-bar app color="primary" dark>
-    <v-toolbar-title>
-      Match 4 Help
-    </v-toolbar-title>
+    <v-toolbar-title class="black--text"> Match 4 Help </v-toolbar-title>
     <v-spacer></v-spacer>
     <div v-if="GetUser">
       Hello, {{ GetUser.isAnonymous ? "anonymous" : GetUser.username }}
@@ -18,14 +16,10 @@
           :key="index"
           @click="item.fn()" -->
         <v-list-item v-show="!GetUser" @click="$router.push(`/Signin`)">
-          <v-list-item-title>
-            Sign in
-          </v-list-item-title>
+          <v-list-item-title> Sign in </v-list-item-title>
         </v-list-item>
         <v-list-item v-show="GetUser" @click="Signout">
-          <v-list-item-title>
-            Sign out
-          </v-list-item-title>
+          <v-list-item-title> Sign out </v-list-item-title>
         </v-list-item>
       </v-list>
     </v-menu>

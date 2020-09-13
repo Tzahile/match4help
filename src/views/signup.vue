@@ -1,7 +1,5 @@
 <template>
-  <div>
-    Welcome to signup page
-  </div>
+  <div>Welcome to signup page</div>
 </template>
 
 <script>

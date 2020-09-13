@@ -56,16 +56,13 @@
   },
   "browserslist": [
     "> 1%",
-    "last 2 versions",
+    "last 10 versions",
     "not dead"
   ],
   "gitHooks": {
     "pre-commit": "lint-staged"
   },
   "lint-staged": {
-    "*.{js,jsx,vue}": [
-      "vue-cli-service lint",
-      "git add"
-    ]
+    "*.{js,jsx,vue}": "vue-cli-service lint"
   }
 }
