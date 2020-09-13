@@ -4,33 +4,59 @@
       <v-col>
         <v-tabs
           v-model="tab"
-          background-color="deep-purple accent-4"
+          background-color="accent"
           centered
           dark
           icons-and-text
         >
-          <v-tab>
+          <v-tab class="black--text">
             Match4Help
             <v-icon>mdi-phone</v-icon>
           </v-tab>
         </v-tabs>
         <v-data-table
+          locale="he-IL"
           :loading="GetDataTable == undefined"
           :headers="GetHeaders"
           :items="GetDataTable ? GetDataTable['Match4Help'] : []"
         >
-          <template #item.b_name="props">
+          <template #item.e_status="{ item }">
             <v-edit-dialog
-              :return-value.sync="props.item.b_name"
+              :return-value.sync="item.e_status"
               large
-              persistent
-              @save="SaveNewValue(props.item)"
+              full-width
+              @save="SaveNewValue(item)"
             >
-              <div>{{ props.item.b_name }}</div>
+              <div>{{ item.e_status }}</div>
+              <template #input>
+                <v-select
+                  v-model="item.e_status"
+                  :items="statusOptions"
+                  autofocus
+                >
+                  <template #item="{ item }">
+                    <v-icon :color="item.iconColor" class="mx-4">
+                      mdi mdi-{{ item.icon }}
+                    </v-icon>
+                    <span>{{ item.text }}</span>
+                  </template>
+                </v-select>
+              </template>
+            </v-edit-dialog>
+          </template>
+
+          <template #item.f_helper="{ item }">
+            <v-edit-dialog
+              :return-value.sync="item.f_helper"
+              large
+              @save="SaveNewValue(item)"
+            >
+              <div>{{ item.f_helper }}</div>
               <template #input>
                 <v-text-field
-                  v-model="props.item.b_name"
-                  label="Edit Name"
+                  v-model="item.f_helper"
+                  @change="ValidateChanges(item.f_helper)"
+                  label="ערוך מתנדב"
                   :rules="[rules.notEmpty, rules.max25]"
                   counter="25"
                   autofocus
@@ -39,58 +65,18 @@
             </v-edit-dialog>
           </template>
 
-          <template #item.f_status="props">
+          <template #item.g_notes="{ item }">
             <v-edit-dialog
-              :return-value.sync="props.item.f_status"
+              :return-value.sync="item.g_notes"
               large
-              persistent
-              @save="SaveNewValue(props.item)"
+              @save="SaveNewValue(item)"
             >
-              <div>{{ props.item.f_status }}</div>
+              <div>{{ item.g_notes }}</div>
               <template #input>
                 <v-text-field
-                  v-model="props.item.f_status"
-                  label="Edit Status"
-                  :rules="[rules.notEmpty, rules.max25]"
-                  counter="25"
-                  autofocus
-                ></v-text-field>
-              </template>
-            </v-edit-dialog>
-          </template>
-
-          <template #item.g_helper="props">
-            <v-edit-dialog
-              :return-value.sync="props.item.g_helper"
-              large
-              persistent
-              @save="SaveNewValue(props.item)"
-            >
-              <div>{{ props.item.g_helper }}</div>
-              <template #input>
-                <v-text-field
-                  v-model="props.item.g_helper"
-                  label="Edit Name"
-                  :rules="[rules.notEmpty, rules.max25]"
-                  counter="25"
-                  autofocus
-                ></v-text-field>
-              </template>
-            </v-edit-dialog>
-          </template>
-
-          <template #item.h_notes="props">
-            <v-edit-dialog
-              :return-value.sync="props.item.h_notes"
-              large
-              persistent
-              @save="SaveNewValue(props.item)"
-            >
-              <div>{{ props.item.h_notes }}</div>
-              <template #input>
-                <v-text-field
-                  v-model="props.item.h_notes"
-                  label="Edit Note"
+                  :value="item.g_notes"
+                  @change="ValidateChanges(item.g_notes)"
+                  label="ערוך הערות"
                   :rules="[rules.notEmpty, rules.max25]"
                   counter="25"
                   autofocus
@@ -112,23 +98,50 @@ export default {
   data() {
     return {
       tab: undefined,
-      showSheets: false,
-      json: undefined,
+      statusOptions: [
+        {
+          text: "חדש",
+          icon: "plus-circle-outline",
+          iconColor: "primary",
+        },
+        {
+          text: "בטיפול",
+          icon: "play-circle-outline",
+          iconColor: "purple",
+        },
+        {
+          text: "הסתיים",
+          icon: "check-circle-outline",
+          iconColor: "success",
+        },
+        {
+          text: "נדחה",
+          icon: "alert-circle-outline",
+          iconColor: "warning",
+        },
+        {
+          text: "בוטל",
+          icon: "close-circle-outline",
+          iconColor: "error",
+        },
+      ],
       rules: {
         notEmpty(v) {
-          console.log(v.length);
-          return v.length > 0 || "Can't be empty";
+          return v.length > 0 || "נא הוסף ערך";
         },
         max25(v) {
-          v.length <= 25 || "Max 25 characters";
+          v.length <= 25 || "מקסימום 25 תווים";
         },
       },
     };
   },
   methods: {
     SaveNewValue(item) {
-      console.log(this.GetDataTable["Match4Help"]);
       UpdateTableValue(item);
+    },
+    ValidateChanges(value) {
+      if (value.length === 0 || value.length > 25) return;
+      this.$emit("save");
     },
   },
   computed: {
@@ -137,14 +150,14 @@ export default {
     }),
     GetHeaders() {
       return [
-        { text: "id", value: "a_id" },
-        { text: "name", value: "b_name" },
-        { text: "address", value: "c_address" },
-        { text: "phone", value: "d_phone" },
-        { text: "information", value: "e_information" },
-        { text: "status", value: "f_status" },
-        { text: "helper", value: "g_helper" },
-        { text: "notes", value: "h_notes" },
+        // { text: "id", value: "a_id" },
+        { text: "שם", value: "a_name" },
+        { text: "כתובת", value: "b_address" },
+        { text: "טלפון", value: "c_phone" },
+        { text: "מידע", value: "d_information" },
+        { text: "סטטוס", value: "e_status" },
+        { text: "מתנדב", value: "f_helper" },
+        { text: "הערות", value: "g_notes" },
       ];
     },
   },
