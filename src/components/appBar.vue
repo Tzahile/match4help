@@ -4,6 +4,9 @@
       Match 4 Help
     </v-toolbar-title>
     <v-spacer></v-spacer>
+    <div v-if="GetUser">
+      Hello, {{ GetUser.isAnonymous ? "anonymous" : GetUser.username }}
+    </div>
     <v-menu offset-y bottom>
       <template #activator="{ on }">
         <v-btn v-on="on" icon>
@@ -11,12 +14,18 @@
         </v-btn>
       </template>
       <v-list>
-        <v-list-item
-          v-for="(item, index) in items"
+        <!-- v-for="(item, index) in items"
           :key="index"
-          @click="item.fn()"
-        >
-          <v-list-item-title>{{ item.title }}</v-list-item-title>
+          @click="item.fn()" -->
+        <v-list-item v-show="!GetUser" @click="$router.push(`/Signin`)">
+          <v-list-item-title>
+            Sign in
+          </v-list-item-title>
+        </v-list-item>
+        <v-list-item v-show="GetUser" @click="Signout">
+          <v-list-item-title>
+            Sign out
+          </v-list-item-title>
         </v-list-item>
       </v-list>
     </v-menu>
@@ -28,38 +37,18 @@ import { mapGetters } from "vuex";
 import { FirebaseSignout } from "../firebaseAPI/signout.js";
 export default {
   data() {
-    return {
-      items: [
-        {
-          title: "Sign in",
-          fn: () => {
-            this.$router.push(`/Signin`);
-          },
-        },
-        {
-          title: "Sign up",
-          fn: () => {
-            this.$router.push(`/Signup`);
-          },
-        },
-        {
-          title: "Sign out",
-          fn: async () => {
-            await FirebaseSignout();
-            this.$router.push(`/Signin`);
-          },
-        },
-      ],
-    };
+    return {};
+  },
+  methods: {
+    async Signout() {
+      await FirebaseSignout();
+      this.$router.push(`/Signin`);
+    },
   },
   computed: {
-    ...mapGetters("user", ["GetUser"]),
-  },
-  watch: {
-    GetUser(newValue) {
-      debugger;
-      console.log(newValue);
-    },
+    ...mapGetters({
+      GetUser: "user/GetUser",
+    }),
   },
 };
 </script>
