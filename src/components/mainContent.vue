@@ -20,69 +20,28 @@
           :headers="GetHeaders"
           :items="GetDataTable ? GetDataTable['Match4Help'] : []"
         >
-          <template #item.e_status="{ item }">
-            <v-edit-dialog
-              :return-value.sync="item.e_status"
-              large
-              full-width
-              @save="SaveNewValue(item)"
-            >
-              <div>{{ item.e_status }}</div>
-              <template #input>
-                <v-select
-                  v-model="item.e_status"
-                  :items="statusOptions"
-                  autofocus
-                >
-                  <template #item="{ item }">
-                    <v-icon :color="item.iconColor" class="mx-4">
-                      mdi mdi-{{ item.icon }}
-                    </v-icon>
-                    <span>{{ item.text }}</span>
-                  </template>
-                </v-select>
-              </template>
-            </v-edit-dialog>
+          <template #[`item.e_status`]="{ item }">
+            <tableDialog
+              @save="this.$emit('save')"
+              input="select"
+              :field="item.e_status"
+            ></tableDialog>
           </template>
 
-          <template #item.f_helper="{ item }">
-            <v-edit-dialog
-              :return-value.sync="item.f_helper"
-              large
-              @save="SaveNewValue(item)"
-            >
-              <div>{{ item.f_helper }}</div>
-              <template #input>
-                <v-text-field
-                  v-model="item.f_helper"
-                  @change="ValidateChanges(item.f_helper)"
-                  label="ערוך מתנדב"
-                  :rules="[rules.notEmpty, rules.max25]"
-                  counter="25"
-                  autofocus
-                ></v-text-field>
-              </template>
-            </v-edit-dialog>
+          <template #[`item.f_helper`]="{ item }">
+            <tableDialog
+              @save="this.$emit('save')"
+              inputLabel="ערוך מתנדב"
+              :field="item.f_helper"
+            ></tableDialog>
           </template>
 
-          <template #item.g_notes="{ item }">
-            <v-edit-dialog
-              :return-value.sync="item.g_notes"
-              large
-              @save="SaveNewValue(item)"
-            >
-              <div>{{ item.g_notes }}</div>
-              <template #input>
-                <v-text-field
-                  :value="item.g_notes"
-                  @change="ValidateChanges(item.g_notes)"
-                  label="ערוך הערות"
-                  :rules="[rules.notEmpty, rules.max25]"
-                  counter="25"
-                  autofocus
-                ></v-text-field>
-              </template>
-            </v-edit-dialog>
+          <template #[`item.g_notes`]="{ item }">
+            <tableDialog
+              @save="this.$emit('save')"
+              inputLabel="ערוך הערות"
+              :field="item.g_notes"
+            ></tableDialog>
           </template>
         </v-data-table>
       </v-col>
@@ -93,55 +52,17 @@
 <script>
 import { mapGetters } from "vuex";
 import { UpdateTableValue } from "../firebaseAPI/dataTable.js";
+import tableDialog from "./tableDialog.vue";
 export default {
   name: "HelloWorld",
   data() {
     return {
       tab: undefined,
-      statusOptions: [
-        {
-          text: "חדש",
-          icon: "plus-circle-outline",
-          iconColor: "primary",
-        },
-        {
-          text: "בטיפול",
-          icon: "play-circle-outline",
-          iconColor: "purple",
-        },
-        {
-          text: "הסתיים",
-          icon: "check-circle-outline",
-          iconColor: "success",
-        },
-        {
-          text: "נדחה",
-          icon: "alert-circle-outline",
-          iconColor: "warning",
-        },
-        {
-          text: "בוטל",
-          icon: "close-circle-outline",
-          iconColor: "error",
-        },
-      ],
-      rules: {
-        notEmpty(v) {
-          return v.length > 0 || "נא הוסף ערך";
-        },
-        max25(v) {
-          v.length <= 25 || "מקסימום 25 תווים";
-        },
-      },
     };
   },
   methods: {
     SaveNewValue(item) {
       UpdateTableValue(item);
-    },
-    ValidateChanges(value) {
-      if (value.length === 0 || value.length > 25) return;
-      this.$emit("save");
     },
   },
   computed: {
@@ -160,6 +81,9 @@ export default {
         { text: "הערות", value: "g_notes" },
       ];
     },
+  },
+  components: {
+    tableDialog,
   },
 };
 </script>
