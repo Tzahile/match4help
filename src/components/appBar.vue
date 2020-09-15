@@ -12,9 +12,6 @@
         </v-btn>
       </template>
       <v-list>
-        <!-- v-for="(item, index) in items"
-          :key="index"
-          @click="item.fn()" -->
         <v-list-item v-show="!GetUser" @click="$router.push(`/Signin`)">
           <v-list-item-title> Sign in </v-list-item-title>
         </v-list-item>

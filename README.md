@@ -1,24 +1,11 @@
 # match4help
 
-## Project setup
-```
-npm install
-```
+Match4Help is a voluntarily app made for matching those who are in need - with those who can help and is willing to.
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+### Sasha's suggestions:
 
-### Compiles and minifies for production
-```
-npm run build
-```
+- Add Date sorted by default
+- Add time of need / deadline (anytime is default?)
 
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+- Support Filter by topics
+- Support filter by area
