@@ -22,25 +22,28 @@
         >
           <template #[`item.e_status`]="{ item }">
             <tableDialog
-              @save="this.$emit('save')"
               input="select"
               :field="item.e_status"
+              @change-field="item.e_status = $event"
+              @save="this.$emit('save')"
             ></tableDialog>
           </template>
 
           <template #[`item.f_helper`]="{ item }">
             <tableDialog
-              @save="this.$emit('save')"
-              inputLabel="ערוך מתנדב"
+              input-label="ערוך מתנדב"
               :field="item.f_helper"
+              @change-field="item.f_helper = $event"
+              @save="this.$emit('save')"
             ></tableDialog>
           </template>
 
           <template #[`item.g_notes`]="{ item }">
             <tableDialog
-              @save="this.$emit('save')"
-              inputLabel="ערוך הערות"
+              input-label="ערוך הערות"
               :field="item.g_notes"
+              @change-field="item.g_notes = $event"
+              @save="this.$emit('save')"
             ></tableDialog>
           </template>
         </v-data-table>
@@ -55,15 +58,13 @@ import { UpdateTableValue } from "../firebaseAPI/dataTable.js";
 import tableDialog from "./tableDialog.vue";
 export default {
   name: "HelloWorld",
+  components: {
+    tableDialog,
+  },
   data() {
     return {
       tab: undefined,
     };
-  },
-  methods: {
-    SaveNewValue(item) {
-      UpdateTableValue(item);
-    },
   },
   computed: {
     ...mapGetters({
@@ -82,8 +83,10 @@ export default {
       ];
     },
   },
-  components: {
-    tableDialog,
+  methods: {
+    SaveNewValue(item) {
+      UpdateTableValue(item);
+    },
   },
 };
 </script>

@@ -1,20 +1,24 @@
 <template>
-  <v-edit-dialog :return-value.sync="field" large @save="SaveNewValue(item)">
-    <div>{{ field }}</div>
+  <v-edit-dialog
+    :return-value.sync="fieldValue"
+    large
+    @save="SaveNewValue(item)"
+  >
+    <div>{{ fieldValue }}</div>
     <template #input>
       <template v-if="input === 'textfield'">
         <v-text-field
-          v-model="field"
-          @change="ValidateChanges(field)"
+          v-model="fieldValue"
           :label="inputLabel"
           :rules="[rules.notEmpty, rules.max25]"
           counter="25"
           autofocus
+          @change="ValidateChanges(fieldValue)"
         ></v-text-field>
       </template>
 
       <template v-if="input === 'select'">
-        <v-select v-model="field" :items="statusOptions" autofocus>
+        <v-select v-model="fieldValue" :items="statusOptions" autofocus>
           <template #item="{ item }">
             <v-icon :color="item.iconColor" class="mx-4">
               mdi mdi-{{ item.icon }}
@@ -29,7 +33,7 @@
 
 <script>
 export default {
-  name: "tableDialog",
+  name: "TableDialog",
   props: {
     input: {
       type: String,
@@ -82,6 +86,16 @@ export default {
         },
       ],
     };
+  },
+  computed: {
+    fieldValue: {
+      get() {
+        return this.field;
+      },
+      set(value) {
+        this.$emit("change-field", value);
+      },
+    },
   },
   methods: {
     ValidateChanges(value) {

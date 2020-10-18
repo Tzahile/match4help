@@ -7,7 +7,7 @@
     </div>
     <v-menu offset-y bottom>
       <template #activator="{ on }">
-        <v-btn v-on="on" icon>
+        <v-btn icon v-on="on">
           <v-icon large>mdi-account-circle</v-icon>
         </v-btn>
       </template>
@@ -30,16 +30,16 @@ export default {
   data() {
     return {};
   },
+  computed: {
+    ...mapGetters({
+      GetUser: "user/GetUser",
+    }),
+  },
   methods: {
     async Signout() {
       await FirebaseSignout();
       this.$router.push(`/Signin`);
     },
-  },
-  computed: {
-    ...mapGetters({
-      GetUser: "user/GetUser",
-    }),
   },
 };
 </script>

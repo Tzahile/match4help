@@ -9,9 +9,9 @@
           <v-row>
             <v-col
               v-for="button in signinButtons"
+              :key="button.text"
               offset="2"
               cols="8"
-              :key="button.text"
             >
               <v-btn
                 :dark="!button.lightText"
