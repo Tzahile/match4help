@@ -20,29 +20,29 @@
           :headers="GetHeaders"
           :items="GetDataTable ? GetDataTable['Match4Help'] : []"
         >
-          <template #[`item.e_status`]="{ item }">
+          <template #[`item.g_status`]="{ item }">
             <tableDialog
               input="select"
-              :field="item.e_status"
-              @change-field="item.e_status = $event"
+              :field="item.g_status"
+              @change-field="item.g_status = $event"
               @save="this.$emit('save')"
             ></tableDialog>
           </template>
 
-          <template #[`item.f_helper`]="{ item }">
+          <template #[`item.h_helper`]="{ item }">
             <tableDialog
               input-label="ערוך מתנדב"
-              :field="item.f_helper"
-              @change-field="item.f_helper = $event"
+              :field="item.h_helper"
+              @change-field="item.h_helper = $event"
               @save="this.$emit('save')"
             ></tableDialog>
           </template>
 
-          <template #[`item.g_notes`]="{ item }">
+          <template #[`item.i_notes`]="{ item }">
             <tableDialog
               input-label="ערוך הערות"
-              :field="item.g_notes"
-              @change-field="item.g_notes = $event"
+              :field="item.i_notes"
+              @change-field="item.i_notes = $event"
               @save="this.$emit('save')"
             ></tableDialog>
           </template>
@@ -73,13 +73,15 @@ export default {
     GetHeaders() {
       return [
         // { text: "id", value: "a_id" },
-        { text: "שם", value: "a_name" },
-        { text: "כתובת", value: "b_address" },
-        { text: "טלפון", value: "c_phone" },
-        { text: "מידע", value: "d_information" },
-        { text: "סטטוס", value: "e_status" },
-        { text: "מתנדב", value: "f_helper" },
-        { text: "הערות", value: "g_notes" },
+        { text: "נוצר", value: "a_created" },
+        { text: "שם", value: "b_name" },
+        { text: "דרוש עד תאריך", value: "c_required-date" },
+        { text: "כתובת", value: "d_address" },
+        { text: "טלפון", value: "e_phone" },
+        { text: "מידע", value: "f_information" },
+        { text: "סטטוס", value: "g_status" },
+        { text: "מתנדב", value: "h_helper" },
+        { text: "הערות", value: "i_notes" },
       ];
     },
   },
