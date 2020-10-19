@@ -1,9 +1,5 @@
 <template>
-  <v-edit-dialog
-    :return-value.sync="fieldValue"
-    large
-    @save="SaveNewValue(item)"
-  >
+  <v-edit-dialog :return-value.sync="fieldValue" large @save="$emit('save')">
     <div>{{ fieldValue }}</div>
     <template #input>
       <template v-if="input === 'textfield'">
@@ -55,7 +51,7 @@ export default {
           return v.length > 0 || "נא הוסף ערך";
         },
         max25(v) {
-          v.length <= 25 || "מקסימום 25 תווים";
+          return v.length <= 25 || "מקסימום 25 תווים";
         },
       },
       statusOptions: [

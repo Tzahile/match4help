@@ -25,7 +25,7 @@
               input="select"
               :field="item.g_status"
               @change-field="item.g_status = $event"
-              @save="this.$emit('save')"
+              @save="SaveNewValue(item)"
             ></tableDialog>
           </template>
 
@@ -34,7 +34,7 @@
               input-label="ערוך מתנדב"
               :field="item.h_helper"
               @change-field="item.h_helper = $event"
-              @save="this.$emit('save')"
+              @save="SaveNewValue(item)"
             ></tableDialog>
           </template>
 
@@ -43,7 +43,7 @@
               input-label="ערוך הערות"
               :field="item.i_notes"
               @change-field="item.i_notes = $event"
-              @save="this.$emit('save')"
+              @save="SaveNewValue(item)"
             ></tableDialog>
           </template>
         </v-data-table>
